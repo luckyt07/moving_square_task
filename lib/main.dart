@@ -65,7 +65,7 @@ class SquareAnimationState extends State<SquareAnimation>
                 onPressed: !_controller.rightButtonEnabled.value
                     ? null
                     : () => _controller.move(MoveDirection.right),
-                child: const Text('to right'),
+                child: const Text('to left'),
               );
             }),
             const SizedBox(width: 8),
@@ -74,7 +74,7 @@ class SquareAnimationState extends State<SquareAnimation>
                 onPressed: !_controller.leftButtonEnabled.value
                     ? null
                     : () => _controller.move(MoveDirection.left),
-                child: const Text('to left'),
+                child: const Text('to right'),
               );
             }),
           ],
