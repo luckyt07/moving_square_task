@@ -6,6 +6,7 @@ enum MoveDirection { left, right }
 class SquareAnimationCtn extends GetxController
     with GetSingleTickerProviderStateMixin {
   static const double squareSize = 50.0;
+
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -18,13 +19,11 @@ class SquareAnimationCtn extends GetxController
   RxBool leftButtonEnabled = RxBool(true);
   RxBool rightButtonEnabled = RxBool(true);
 
-  bool putIntialOffset = false;
-
+  /// Used to determine the threshold of left offset
   double get leftThreshold => -(Get.width / 2) + squareSize / 2;
 
+  /// Used to determine the threshold of right offset
   double get righThreshold => (Get.width / 2) - squareSize / 2;
-
-  final GlobalKey globalKey = GlobalKey();
 
   @override
   void onInit() {
@@ -38,15 +37,17 @@ class SquareAnimationCtn extends GetxController
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     )..addListener(() {
         offsetX.value = _animation.value;
-        print("OffsetX :::-> ${offsetX.value}");
       });
 
     _controller.addStatusListener((status) {
+      // When controller is animating disable both buttons
       if (status.isAnimating) {
         leftButtonEnabled(false);
         rightButtonEnabled(false);
       }
 
+      // After animation completed check for the threshold
+      // If the threshold reached then diable that particular button
       if (status == AnimationStatus.completed ||
           status == AnimationStatus.dismissed) {
         _updateButtonState();
@@ -54,20 +55,8 @@ class SquareAnimationCtn extends GetxController
     });
   }
 
-  Offset _getCurrentOffset() {
-    final RenderBox renderBox =
-        globalKey.currentContext!.findRenderObject() as RenderBox;
-    return renderBox.localToGlobal(Offset.zero);
-  }
-
-  void move(
-    MoveDirection direction,
-  ) {
-    // if (!putIntialOffset) {
-    //   offsetX.value = _getCurrentOffset().dx;
-    //   putIntialOffset = true;
-    // }
-    double screenWidth = Get.width; // Get screen width dynamically
+  /// Move the red container based on the direction.
+  void move(MoveDirection direction) {
     double targetOffset = offsetX.value;
 
     if (direction == MoveDirection.left) {
@@ -85,6 +74,7 @@ class SquareAnimationCtn extends GetxController
     _controller.forward(from: 0);
   }
 
+  /// Update the button state after the animation complete.
   void _updateButtonState() {
     leftButtonEnabled(offsetX.value > leftThreshold);
     rightButtonEnabled(offsetX.value < righThreshold);
