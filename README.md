@@ -17,7 +17,4 @@ This project implements the movement of a **red square** using Flutter. The squa
 - 🚀 **Quality over speed**: No strict deadline—focus on clean and maintainable code.
 - 🌍 **Deployed via GitHub Pages** and hosted in a **GitHub repository**.
 
----
-
-## 📂 Project Structure
 
