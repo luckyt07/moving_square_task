@@ -62,18 +62,18 @@ class SquareAnimationState extends State<SquareAnimation>
           children: [
             Obx(() {
               return ElevatedButton(
-                onPressed: !_controller.rightButtonEnabled.value
+                onPressed: !_controller.leftButtonEnabled.value
                     ? null
-                    : () => _controller.move(MoveDirection.right),
+                    : () => _controller.move(MoveDirection.left),
                 child: const Text('to left'),
               );
             }),
             const SizedBox(width: 8),
             Obx(() {
               return ElevatedButton(
-                onPressed: !_controller.leftButtonEnabled.value
+                onPressed: !_controller.rightButtonEnabled.value
                     ? null
-                    : () => _controller.move(MoveDirection.left),
+                    : () => _controller.move(MoveDirection.right),
                 child: const Text('to right'),
               );
             }),
